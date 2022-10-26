@@ -1,0 +1,71 @@
+body{
+    background-color: #e7e7e6;
+}
+
+h1{
+    color: #464646;   
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h2{
+    color: #464646;
+    text-align: center;
+    font-size: medium;
+    font-weight: 400;
+}
+
+.main{
+    display: grid;
+    grid-template-columns: 10px auto auto auto 10px;
+    height: 100%;
+}
+section{
+    text-align: center;
+}
+.pokemon{
+    width: 250px;
+    display: inline-block;
+    background-color: #f0dba5;
+    margin-right: 30px;
+    margin-top: 40px;
+    margin-bottom: 50px;
+    box-shadow: 5px 10px #464646;
+    border: 2px solid;
+    border-radius: 7px;
+    opacity: 0.8;   
+    border-radius: 12px;
+}
+.pokemon:hover{
+    opacity: 1;
+}
+
+p{
+    padding: 6px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #464646;
+    text-align: center;
+    /* display: inline-block; */
+}
+
+#team{
+    display: flex;
+}
+
+#team section{
+    display: flex;
+}
+#enemy
+{
+    display: flex;
+}
+
+#enemy section{
+    display: flex;
+}
+
+.battle{
+    background-image: url("https://i.redd.it/o8a7u5vl6hb41.png");
+    background-repeat: no-repeat;
+}
+
