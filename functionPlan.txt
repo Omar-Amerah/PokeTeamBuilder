@@ -1,0 +1,34 @@
+Functions needed:
+
+Day1:
+    -Card Array
+        Array of objects
+        Name, Type(s), Id and BaseIndex
+
+    -getPokemon()
+        Fetches the actual information of the pokemon 
+        Stores this into a variable called pokemonData
+
+    -createPokemonCard(pokemonData)
+        Creates relevant elements based on Name, Id, Type
+        Appends cards to "main" part of the HTML
+        Card will hopefully look like this:
+
+
+        |---------------|          [Change]
+        |     Name      |          -----------------> [History]
+        |     ***       |
+        |     ***       |
+        |    Type(s)    |
+        |      Id       |
+        |    BaseExp    |
+        |     y/n       |
+        |---------------|
+
+
+
+
+
+
+Day2:
+-pokeBattle(pokemonData)
