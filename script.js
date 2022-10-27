@@ -16,34 +16,28 @@ async function getPokemon() {
 
 //Function to create the 3 pokemon cards at the start
 function createPokemonCard(pokemonData){
-    
     const card = document.createElement("div")
-
-    const p = document.createElement("p");
-    p.innerHTML = pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1);
+    const title = document.createElement("p");
+    title.innerHTML = pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1);
+    title.classList.add("poketitle")
 
     const sprite = document.createElement("img")
     sprite.src = pokemonData.sprites.front_default
     sprite.classList.add("sprite")
 
     const type = document.createElement("p")
-    if(pokemonData.types[1] === undefined)
-    {
-        type.innerHTML = 'Type(s): ' + pokemonData.types[0].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1)
-    }
-    else
-    {
-        type.innerHTML = 'Type(s): ' + pokemonData.types[0].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1) + ', ' + pokemonData.types[1].type.name.charAt(0).toUpperCase() + pokemonData.types[1].type.name.slice(1)
-    }
+    
+    pokemonData.types[1] === undefined ? type.innerHTML = 'Type(s): ' + pokemonData.types[0].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1) :
+    type.innerHTML = 'Type(s): ' + pokemonData.types[0].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1) + ', ' + pokemonData.types[1].type.name.charAt(0).toUpperCase() + pokemonData.types[1].type.name.slice(1)
 
-    //.charAt(0).toUpperCase() + data.name.slice(1)
+
 
     const exp = document.createElement("p")
     const pokedex = document.createElement("p")
     pokedex.innerHTML = `Pokedex Index: ${pokemonData.id}`
     exp.innerHTML = `Base Stat: ${pokemonData.base_experience}`
     
-    card.append(p,sprite, type,pokedex, exp)
+    card.append(title,sprite, type,pokedex, exp)
     card.classList.add("pokemon")
     card.classList.add("innerCard")
     cardsection.append(card)
@@ -52,11 +46,12 @@ function createPokemonCard(pokemonData){
     
     /*When a card is clicked the chosen pokemon is pushed to an array
     A random enemy pokemon is chosen
-    and 3 new pokemon are chosen and created
+    and 3 new pokemon are picked and created
+    and if 6 are chosen arena is created
     */
     card.addEventListener(('click'), () => {
         pokemonTeam.push(pokemonData)
-        addToTeam(p, sprite)
+        addToTeam(title, sprite)
         createEnemy()
         cardsection.replaceChildren()
         
@@ -71,6 +66,7 @@ function createPokemonCard(pokemonData){
     })
 };
 
+//Function to create the 3 cards for the player to pick from
 function initialiseThreeCards(){
     for (let i = 0; i < 3; i++){
         getPokemon().then(data => {
@@ -82,6 +78,8 @@ function initialiseThreeCards(){
     }
 }
 
+
+
 function addToTeam(name, sprite){
     teamSection = document.querySelector("#team")
     const entry = document.createElement("section")
@@ -90,17 +88,21 @@ function addToTeam(name, sprite){
     teamSection.appendChild(entry)
 }
 
+//Picks and pushes a random pokemon to the enemy array
 function createEnemy()
 {
         getPokemon().then(data => {
             enemylist.push(data)
             enemySection = document.querySelector("#enemy")
-            const entry = document.createElement("section")
             
+            const entry = document.createElement("section")
             const sprite = document.createElement("img")
+            const etitle = document.createElement("p")
+            etitle.innerHTML = (data.name.charAt(0).toUpperCase() + data.name.slice(1))
             sprite.src =  data.sprites.front_default
             sprite.classList.add("sprite")
-            entry.append((data.name.charAt(0).toUpperCase() + data.name.slice(1)), sprite)
+            entry.append(etitle,sprite)
+            entry.classList.add("poketitle")
             enemySection.appendChild(entry)
         })
         .catch(err => {
@@ -108,35 +110,54 @@ function createEnemy()
         });
 }
 
-function battle(playername){
-    enemyname = enemylist[Math.floor(Math.random() * enemylist.length)]
-    console.log("name" ,enemyname)
-    if(playername.id < enemyname.id){
-        //element.innerHTML(`${playername} is knocked out`)
+function battle(player){
+    let element = document.querySelector("#battleText")
+    let teamList = document.querySelector(`#enemy`)
+    let pos = Math.floor(Math.random() * teamList.childNodes.length)
+    enemy = enemylist[pos]
+    movePokemon(teamList.childNodes[pos], "enemy", "cpu")
+    console.log(enemy, enemy.id)
+    if(player.id < enemy.id){
+        element.innerHTML= (`${player.name} is knocked out`)
+        console.log("lose")
+        removePokemon(player, "player")
     }
     else{
-        //element.innerHTML(`${enemyname} is knocked out`)
+        element.innerHTML = (`${enemy.name} is knocked out`)
+        console.log("win")
+        removePokemon(enemy, "cpu")
     }
 }
 
+function removePokemon(pokemon, team){
+    let battleSection = document.querySelector(`#${team}`)
+    battleSection.replaceChildren()
+}
+
+function movePokemon(child,id, name){
+    let teamList = document.querySelector(`#${id}`)
+    let battleSection = document.querySelector(`#${name}`)
+    teamList.removeChild(child)
+    battleSection.append(child)
+}
+
 function beginBattle(){
-    let battleSection = document.querySelector("#battle")
-    
-    // add event listeners to the pokemon
+    // add event listeners to the player pokemon
     let teamList = document.querySelector("#team")
+    let player = document.createElement("section")
+    let cpu = document.createElement("section")
+    cpu.id = "cpu"
+    player.id = "player"
+    // let text = document.createElement("p")
+    // text.id = "battleText"
+    // text.innerHTML = "Battle!"
+    document.querySelector("#battle").append(player, cpu)
     teamList.childNodes.forEach((child, pos)=>{
         child.addEventListener("click", ()=>{
-            teamList.removeChild(child)
-            battleSection.append(child)
+            movePokemon(child,"team", "player")
             battle(pokemonTeam[pos])
         })
     })
-
-
-    // choose an enemy pokemon
-    // move pokemon into place in battle arena
-    // and remove from team list
-    // call the battle function
 }
 
 initialiseThreeCards()

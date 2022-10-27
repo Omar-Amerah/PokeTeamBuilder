@@ -1,5 +1,13 @@
+html{
+    height: 100vh;
+}
 body{
     background-color: #e7e7e6;
+    margin: 0%;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 h1{
@@ -15,14 +23,17 @@ h2{
     font-weight: 400;
 }
 
-.main{
-    display: grid;
-    grid-template-columns: 10px auto auto auto 10px;
-    height: 100%;
-}
+
 section{
     text-align: center;
 }
+
+
+.poketitle
+{
+    font-size: 20px;
+}
+
 .pokemon{
     width: 250px;
     display: inline-block;
@@ -31,10 +42,10 @@ section{
     margin-top: 40px;
     margin-bottom: 50px;
     box-shadow: 5px 10px #464646;
-    border: 2px solid;
+    border: 2px solid #464646;
     border-radius: 7px;
     opacity: 0.8;   
-    border-radius: 12px;
+    border-radius: 10px;
 }
 .pokemon:hover{
     opacity: 1;
@@ -47,24 +58,52 @@ p{
     text-align: center;
 }
 
+/* team is the whole thing */
 #team{
-    display: flex;
+    display: inline-block;
+    float: left;
 }
-
+/* section within team, each tiny pokemon */
 #team section{
     display: flex;
 }
+
 #enemy
 {
+    display: inline-block;
+    float: right;
+}
+#enemy section{
+    
     display: flex;
 }
 
-#enemy section{
+.colourStrip{
     display: flex;
+    background-color: rgba(104, 170, 249, 0.6);
 }
 
 .battle{
+    max-height: 100%;
+    max-width: 100%;
+    background-size: cover;
+    background-position: center;
     background-image: url("https://i.redd.it/o8a7u5vl6hb41.png");
     background-repeat: no-repeat;
 }
 
+#battle{
+    display: flex;
+}
+
+.main{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* .main{
+    display: grid;
+    grid-template-columns: 10px auto auto auto 10px;
+    height: 100%; 
+} */
