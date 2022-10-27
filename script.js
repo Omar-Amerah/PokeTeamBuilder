@@ -1,6 +1,6 @@
 let main = document.querySelector("main")
 let pokemonTeam = [] 
-const enemylist = []
+const enemyTeam = []
 let pokemonTeamName = []
 
 const cardsection = document.createElement("section")
@@ -40,7 +40,7 @@ function createPokemonCard(pokemonData){
     card.classList.add("pokemon")
     card.classList.add("innerCard")
     cardsection.append(card)
-    main.prepend(cardsection);
+    main.insertBefore(cardsection, document.querySelector("#enemy"));
 
     
     /*When a card is clicked the chosen pokemon is pushed to an array
@@ -92,17 +92,18 @@ function addToTeam(name, sprite){
 function createEnemy()
 {
         getPokemon().then(data => {
-            enemylist.push(data)
+            enemyTeam.push(data)
             enemySection = document.querySelector("#enemy")
             
             const entry = document.createElement("section")
             const sprite = document.createElement("img")
             const etitle = document.createElement("p")
+            etitle.classList.add("poketitle")
             etitle.innerHTML = (data.name.charAt(0).toUpperCase() + data.name.slice(1))
             sprite.src =  data.sprites.front_default
             sprite.classList.add("sprite")
             entry.append(etitle,sprite)
-            entry.classList.add("poketitle")
+            entry.classList.add("enemyentry")
             enemySection.appendChild(entry)
         })
         .catch(err => {
@@ -207,6 +208,7 @@ function removePokemon(team){
 
 const battlearea = document.querySelector("#battle")
 let teamList = document.querySelector("#team")
+let enemyList = document.querySelector("#enemy")
 
 function test()
 {
@@ -232,10 +234,33 @@ function removeplayerPokemon(chosenPokemon)
                 child.querySelector("img").classList.add("player")
                 main.appendChild(child.querySelector("img"))
                 teamList.removeChild(child)
-                
+                removeenemyPokemon()
+                return "Hello"
             }
         }
     })
+}
+function removeenemyPokemon()
+{
+    let pos = Math.floor(Math.random() * enemyTeam.length)
+    enemyList.querySelectorAll(".enemyentry").forEach((child)=>{
+        console.log(child.querySelector(".poketitle").innerHTML.toUpperCase(), enemyTeam[pos].name.toUpperCase())
+        if((child.querySelector(".poketitle")).innerHTML.toUpperCase() === enemyTeam[pos].name.toUpperCase())
+        {
+            // 
+            enemyTeam.splice(enemyTeam[pos], 1)
+            child.querySelector("img").classList.add("cpu")
+            main.appendChild(child.querySelector("img"))
+            enemyList.removeChild(child)
+            return "Hello"
+        }
+    })
+} 
+
+
+function battlefunction()
+{
+
 }
 
 
