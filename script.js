@@ -83,7 +83,7 @@ function initialiseThreeCards(){
 function addToTeam(name, sprite){
     teamSection = document.querySelector("#team")
     const entry = document.createElement("section")
-    
+    entry.classList.add("entry")
     entry.append(name, sprite)
     teamSection.appendChild(entry)
 }
@@ -164,7 +164,7 @@ function movePokemon(child,id, name){
     teamList.removeChild(child)
     battleSection.append(child)
     console.log(child, "child")
-    child.classList.add("removedPokemon")
+    child.classList.add(name)
 }
 
 function battle(playerPokemon){
@@ -215,8 +215,8 @@ function test()
         if (child.innerHTML !== "Your Team:"){
             child.addEventListener("click", ()=>{
                 let index = pokemonTeamName.indexOf(child.querySelector("p").innerHTML)
-                console.log(pokemonTeam[index].id)
-                return pokemonTeam[index].id
+                console.log(pokemonTeam[index].name)
+                removeplayerPokemon(pokemonTeam[index].name)
             })
         }
     })
@@ -225,10 +225,15 @@ function test()
 
 function removeplayerPokemon(chosenPokemon)
 {
-    teamList.childNodes.forEach((child)=>{
-        if(child.innerHTML === chosenPokemon)
-        {
-
+    teamList.querySelectorAll(".entry").forEach((child)=>{
+        if(child.innerHTML !== "Your Team:"){
+            if((child.querySelector(".poketitle")).innerHTML.toUpperCase() === chosenPokemon.toUpperCase())
+            {
+                child.querySelector("img").classList.add("player")
+                main.appendChild(child.querySelector("img"))
+                teamList.removeChild(child)
+                
+            }
         }
     })
 }

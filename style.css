@@ -10,6 +10,12 @@ body{
     grid-template-rows: auto 1fr;
 }
 
+.main{
+    display: flex;
+    /* flex-direction: column; */
+    /* background-color */
+}
+
 h1{
     color: #464646;   
     text-align: center;
@@ -94,13 +100,13 @@ p{
 }
 
 .colourStrip{
-    grid-area: 2/2 /9/2;
+    grid-area: 2/1 /9/1;
     background-color: rgba(104, 170, 249, 0.7);
     max-height: 100%;
 } 
 
 .enemycolourStrip{
-    grid-area: 2/8 /9/8;
+    grid-area: 2/10 /9/10;
 }
 
 .colourStrip section{
@@ -109,18 +115,43 @@ p{
     width: auto;
 }
 
-#battle{
-    display: flex;
-}
+/* #battle{
 
-.main{
     display: flex;
-    justify-content: space-between;
-}
+} */
 
-.removedPokemon img{
+.player{
     width: 250px;
     height: 250px;
+    grid-area: 5/3/7/5;
+    transform: rotateY(180); 
+    margin-left: -40px;
+    -webkit-animation: rotation 4s infinite linear;
+    animation: infinite;
+}
+
+@keyframes rotation {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    25% {
+      -webkit-transform: rotate(3deg);
+    }
+    50% {
+      -webkit-transform: rotate(0deg);
+    }
+    75% {
+      -webkit-transform: rotate(-3deg);
+    }
+    100% {
+      -webkit-transform: rotate(0deg);
+    }
+  }
+
+.cpu{
+    width: 250px;
+    height: 250px;
+    grid-area:  5/5/5/9;
 }
 
 
