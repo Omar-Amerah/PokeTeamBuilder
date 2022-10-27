@@ -4,14 +4,17 @@ const enemylist = []
 const clicked = ""
 const cardsection = document.createElement("section")
 
+//Function to get a random pokemon from PokeAPI and return it
 async function getPokemon() {
     let pokemon = Math.floor(Math.random() * 400)
     //saving the api response in a constant
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
     const data = await response.json();
     return data
-  }
+  } 
   
+
+//Function to create the 3 pokemon cards at the start
 function createPokemonCard(pokemonData){
     
     const card = document.createElement("div")
@@ -24,16 +27,13 @@ function createPokemonCard(pokemonData){
     sprite.classList.add("sprite")
 
     const type = document.createElement("p")
-    let types = ""
-    pokemonData.types.forEach( (x)=>{types += x.type.name +" "})
-    type.innerHTML = `Type(s): ${types}`
     if(pokemonData.types[1] === undefined)
     {
         type.innerHTML = 'Type(s): ' + pokemonData.types[0].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1)
     }
     else
     {
-        type.innerHTML = 'Type(s): ' + pokemonData.types[0].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1) + ', ' + pokemonData.types[1].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1)
+        type.innerHTML = 'Type(s): ' + pokemonData.types[0].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1) + ', ' + pokemonData.types[1].type.name.charAt(0).toUpperCase() + pokemonData.types[1].type.name.slice(1)
     }
 
     //.charAt(0).toUpperCase() + data.name.slice(1)
@@ -45,13 +45,29 @@ function createPokemonCard(pokemonData){
     
     card.append(p,sprite, type,pokedex, exp)
     card.classList.add("pokemon")
+    card.classList.add("innerCard")
     cardsection.append(card)
     main.prepend(cardsection);
 
+    
+    /*When a card is clicked the chosen pokemon is pushed to an array
+    A random enemy pokemon is chosen
+    and 3 new pokemon are chosen and created
+    */
     card.addEventListener(('click'), () => {
         pokemonTeam.push(pokemonData)
         addToTeam(p, sprite)
         createEnemy()
+        cardsection.replaceChildren()
+        
+        if (pokemonTeam.length === 6){
+            main.classList.add("battle")
+            document.querySelector("header").replaceChildren()
+            alert("reached team capacity - time to battle!")
+            beginBattle()
+        }else{
+            initialiseThreeCards()
+        }
     })
 };
 
@@ -66,19 +82,6 @@ function initialiseThreeCards(){
     }
 }
 
-
-cardsection.addEventListener(('click'), () => {
-    cardsection.replaceChildren()
-    if (pokemonTeam.length === 6){
-        main.classList.add("battle")
-        document.querySelector("header").replaceChildren()
-        alert("reached team capacity - time to battle!")
-        beginBattle()
-    }else{
-        initialiseThreeCards()
-    }
-})
-
 function addToTeam(name, sprite){
     teamSection = document.querySelector("#team")
     const entry = document.createElement("section")
@@ -87,17 +90,10 @@ function addToTeam(name, sprite){
     teamSection.appendChild(entry)
 }
 
-function pushEnemy(data)
-{
-    enemylist.push(data)
-    console.log(enemylist)
-    
-}
-
 function createEnemy()
 {
         getPokemon().then(data => {
-            pushEnemy(data);
+            enemylist.push(data)
             enemySection = document.querySelector("#enemy")
             const entry = document.createElement("section")
             
@@ -113,7 +109,8 @@ function createEnemy()
 }
 
 function battle(playername){
-    // enemyname = randomly chosen from the arra
+    enemyname = enemylist[Math.floor(Math.random() * enemylist.length)]
+    console.log("name" ,enemyname)
     if(playername.id < enemyname.id){
         //element.innerHTML(`${playername} is knocked out`)
     }
@@ -124,13 +121,14 @@ function battle(playername){
 
 function beginBattle(){
     let battleSection = document.querySelector("#battle")
+    
     // add event listeners to the pokemon
     let teamList = document.querySelector("#team")
     teamList.childNodes.forEach((child, pos)=>{
         child.addEventListener("click", ()=>{
             teamList.removeChild(child)
             battleSection.append(child)
-            // battle(pokemonTeam[pos]) --> need to choose the enemy pokemon too
+            battle(pokemonTeam[pos])
         })
     })
 
