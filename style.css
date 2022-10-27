@@ -60,6 +60,7 @@ p{
 
 /* team is the whole thing */
 #team{
+    /* background-color: rgba(104, 170, 249, 0.7); */
     display: inline-block;
     float: left;
 }
@@ -68,8 +69,8 @@ p{
     display: flex;
 }
 
-#enemy
-{
+#enemy{
+    /* background-color: rgba(104, 170, 249, 0.7); */
     display: inline-block;
     float: right;
 }
@@ -78,10 +79,7 @@ p{
     display: flex;
 }
 
-.colourStrip{
-    display: flex;
-    background-color: rgba(104, 170, 249, 0.6);
-}
+
 
 .battle{
     max-height: 100%;
@@ -90,10 +88,17 @@ p{
     background-position: center;
     background-image: url("https://i.redd.it/o8a7u5vl6hb41.png");
     background-repeat: no-repeat;
+
 }
 
+.colourStrip{
+    background-color: rgba(104, 170, 249, 0.7);
+} 
+
 #battle{
-    display: flex;
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
 }
 
 .main{
@@ -101,6 +106,15 @@ p{
     justify-content: space-between;
 }
 
+.removedPokemon img{
+    width: 250px;
+    height: 250px;
+}
+
+.removedPokemon{
+    display: grid;
+
+}
 
 /* .main{
     display: grid;
