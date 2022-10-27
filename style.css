@@ -1,13 +1,13 @@
-html{
+/* html{
     height: 100vh;
-}
+} */
 body{
     background-color: #e7e7e6;
     margin: 0%;
-    height: 100vh;
     width: 100vw;
+    height: 100vh;
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr;
 }
 
 h1{
@@ -80,25 +80,37 @@ p{
 }
 
 
-
 .battle{
-    max-height: 100%;
-    max-width: 100%;
-    background-size: cover;
+    max-height: 100vh;
+    max-width: 100vw;
+    background-size: 100% 100%;
+    background-size: contain;
     background-position: center;
     background-image: url("https://i.redd.it/o8a7u5vl6hb41.png");
     background-repeat: no-repeat;
-
+    background-size: cover;
+    display: grid;
+    grid-template: repeat(9, 1fr)/ repeat(10,1fr)
 }
 
 .colourStrip{
+    grid-area: 2/2 /9/2;
     background-color: rgba(104, 170, 249, 0.7);
+    max-height: 100%;
 } 
 
+.enemycolourStrip{
+    grid-area: 2/8 /9/8;
+}
+
+.colourStrip section{
+    /* width: 2vw; */
+    height: 10vh;
+    width: auto;
+}
+
 #battle{
-    display: grid;
-    grid-template-columns: 20% 20% 20% 20% 20%;
-    grid-template-rows: 20% 20% 20% 20% 20%;
+    display: flex;
 }
 
 .main{
@@ -111,10 +123,6 @@ p{
     height: 250px;
 }
 
-.removedPokemon{
-    display: grid;
-
-}
 
 /* .main{
     display: grid;

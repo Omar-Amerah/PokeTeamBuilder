@@ -1,8 +1,8 @@
 let main = document.querySelector("main")
 let pokemonTeam = [] 
 const enemylist = []
-const clicked = ""
-let winningPokemon = null
+let pokemonTeamName = []
+
 const cardsection = document.createElement("section")
 
 //Function to get a random pokemon from PokeAPI and return it
@@ -31,8 +31,6 @@ function createPokemonCard(pokemonData){
     pokemonData.types[1] === undefined ? type.innerHTML = 'Type(s): ' + pokemonData.types[0].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1) :
     type.innerHTML = 'Type(s): ' + pokemonData.types[0].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1) + ', ' + pokemonData.types[1].type.name.charAt(0).toUpperCase() + pokemonData.types[1].type.name.slice(1)
 
-
-
     const exp = document.createElement("p")
     const pokedex = document.createElement("p")
     pokedex.innerHTML = `Pokedex Index: ${pokemonData.id}`
@@ -60,7 +58,10 @@ function createPokemonCard(pokemonData){
             main.classList.add("battle")
             document.querySelector("header").replaceChildren()
             alert("reached team capacity - time to battle!")
-            beginBattle()
+            pokemonTeam.forEach((element)=>{
+                pokemonTeamName.push(element.name.charAt(0).toUpperCase() + element.name.slice(1))
+            })
+            test()
         }else{
             initialiseThreeCards()
         }
@@ -78,8 +79,6 @@ function initialiseThreeCards(){
         }); 
     }
 }
-
-
 
 function addToTeam(name, sprite){
     teamSection = document.querySelector("#team")
@@ -132,17 +131,55 @@ function createEnemy()
 //     }
 // }
 
+/*
+function beginBattle(){
+    // add event listeners to the player pokemon
+    let teamList = document.querySelector("#team")
+    let player = document.createElement("section")
+    let cpu = document.createElement("section")
+    cpu.id = "cpu"
+    player.id = "player"
+    // let text = document.createElement("p")
+    // text.id = "battleText"
+    // text.innerHTML = "Battle!"
+    document.querySelector("#battle").append(player, cpu)
+    teamList.childNodes.forEach((child)=>{
+        if (child.innerHTML !== "Your Team:"){
+            child.addEventListener("click", ()=>{
+                movePokemon(child, "team", "player")
+                let pokemonTeamName = []
+                pokemonTeam.forEach((element)=>{
+                    pokemonTeamName.push(element.name.charAt(0).toUpperCase() + element.name.slice(1))
+                })
+                let index = pokemonTeamName.indexOf(child.querySelector("p").innerHTML)
+                child.removeChild(child.querySelector("p"))
+                battle(pokemonTeam[index], winningPokemon)
+                pokemonTeam.pop(index)
+            })
+        }})
+}
+function movePokemon(child,id, name){
+    
+    let battleSection = document.querySelector(`#${name}`)
+    teamList.removeChild(child)
+    battleSection.append(child)
+    console.log(child, "child")
+    child.classList.add("removedPokemon")
+}
+
 function battle(playerPokemon){
     if (winningPokemon === null){
         console.log("choosing an enemy")
         let pos = Math.floor(Math.random() * enemylist.length)
-        movePokemon(document.querySelector("#enemy").childNodes[pos], "enemy", "cpu")
+        console.log("nodes:" ,document.querySelector("#enemy").childNodes)
+        movePokemon(document.querySelector("#enemy").childNodes[pos + 3], "enemy", "cpu")
         // winningPokemon = enemylist[pos]
         console.log(enemylist)
         winningPokemon = enemylist.pop(pos)
         console.log(enemylist)
         // winningPokemon = enemyPokemon
     }
+    console.log(playerPokemon.id)
     if(playerPokemon.id < winningPokemon.id){
         console.log("Lost:" + playerPokemon.id, winningPokemon.id)
             removePokemon(player, "player")
@@ -162,47 +199,39 @@ function battle(playerPokemon){
         }
     }
 }
-
-
-function removePokemon(pokemon, team){
+function removePokemon(team){
     let battleSection = document.querySelector(`#${team}`)
     battleSection.replaceChildren()
 }
+*/
 
-function movePokemon(child,id, name){
-    let teamList = document.querySelector(`#${id}`)
-    let battleSection = document.querySelector(`#${name}`)
-    teamList.removeChild(child)
-    battleSection.append(child)
-    console.log(child, "child")
-    child.classList.add("removedPokemon")
-}
+const battlearea = document.querySelector("#battle")
+let teamList = document.querySelector("#team")
 
-function beginBattle(){
-    // add event listeners to the player pokemon
-    let teamList = document.querySelector("#team")
-    let player = document.createElement("section")
-    let cpu = document.createElement("section")
-    cpu.id = "cpu"
-    player.id = "player"
-    // let text = document.createElement("p")
-    // text.id = "battleText"
-    // text.innerHTML = "Battle!"
-    document.querySelector("#battle").append(player, cpu)
-    teamList.childNodes.forEach((child, pos)=>{
+function test()
+{
+    teamList.childNodes.forEach((child)=>{
+        
         if (child.innerHTML !== "Your Team:"){
             child.addEventListener("click", ()=>{
-            movePokemon(child,"team", "player")
-            let pokemonTeamName = []
-            pokemonTeam.forEach((element)=>{
-                pokemonTeamName.push(element.name.charAt(0).toUpperCase() + element.name.slice(1))
+                let index = pokemonTeamName.indexOf(child.querySelector("p").innerHTML)
+                console.log(pokemonTeam[index].id)
+                return pokemonTeam[index].id
             })
-            let index = pokemonTeamName.indexOf(child.querySelector("p").innerHTML)
-            child.removeChild(child.querySelector("p"))
-            battle(pokemonTeam[index], winningPokemon)
-            pokemonTeam.pop(index)
-            })
-        }})
+        }
+    })
+    
 }
+
+function removeplayerPokemon(chosenPokemon)
+{
+    teamList.childNodes.forEach((child)=>{
+        if(child.innerHTML === chosenPokemon)
+        {
+
+        }
+    })
+}
+
 
 initialiseThreeCards()
