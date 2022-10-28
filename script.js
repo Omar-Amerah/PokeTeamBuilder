@@ -58,7 +58,6 @@ function createPokemonCard(pokemonData){
     cardsection.append(card)
     main.insertBefore(cardsection, document.querySelector("#enemy"));
 
-    
     /*When a card is clicked the chosen pokemon is pushed to an array
     A random enemy pokemon is chosen
     and 3 new pokemon are picked and created
