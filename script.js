@@ -2,6 +2,9 @@ let main = document.querySelector("main")
 let pokemonTeam = [] 
 const enemyTeam = []
 let pokemonTeamName = []
+let clicked = false
+let pfightpoke
+let cfightpoke
 
 const cardsection = document.createElement("section")
 
@@ -57,6 +60,20 @@ function createPokemonCard(pokemonData){
         if (pokemonTeam.length === 6){
             main.classList.add("battle")
             document.querySelector("header").replaceChildren()
+            
+            //Creating an alertDiv, contains message and button
+            // const alertDiv = document.createElement("div")
+            // alertDiv.id = "container";
+            // //Creating an alertMessage, contains only message
+            // const alertMessage = document.createElement("div")
+            // alertMessage.classList.add("message");
+            // alertMessage.innerHTML = "reached team capacity - time to battle"
+            // //Creating an alertButton, contains only the 'Okay!' button
+            // const alertButton = document.createElement("button")
+            // alertButton.classList.add("okay")
+            // alertButton.innerHTML = "Okay!"
+
+
             alert("reached team capacity - time to battle!")
             pokemonTeam.forEach((element)=>{
                 pokemonTeamName.push(element.name.charAt(0).toUpperCase() + element.name.slice(1))
@@ -213,12 +230,12 @@ let enemyList = document.querySelector("#enemy")
 function test()
 {
     teamList.childNodes.forEach((child)=>{
-        
         if (child.innerHTML !== "Your Team:"){
             child.addEventListener("click", ()=>{
                 let index = pokemonTeamName.indexOf(child.querySelector("p").innerHTML)
-                console.log(pokemonTeam[index].name)
+                pfightpoke = child
                 removeplayerPokemon(pokemonTeam[index].name)
+                battlefunction()
             })
         }
     })
@@ -229,11 +246,12 @@ function removeplayerPokemon(chosenPokemon)
 {
     teamList.querySelectorAll(".entry").forEach((child)=>{
         if(child.innerHTML !== "Your Team:"){
-            if((child.querySelector(".poketitle")).innerHTML.toUpperCase() === chosenPokemon.toUpperCase())
+            if((child.querySelector(".poketitle")).innerHTML.toUpperCase() === chosenPokemon.toUpperCase() && clicked === false)
             {
                 child.querySelector("img").classList.add("player")
                 main.appendChild(child.querySelector("img"))
                 teamList.removeChild(child)
+                clicked = true
                 removeenemyPokemon()
                 return "Hello"
             }
@@ -243,25 +261,69 @@ function removeplayerPokemon(chosenPokemon)
 function removeenemyPokemon()
 {
     let pos = Math.floor(Math.random() * enemyTeam.length)
-    enemyList.querySelectorAll(".enemyentry").forEach((child)=>{
-        console.log(child.querySelector(".poketitle").innerHTML.toUpperCase(), enemyTeam[pos].name.toUpperCase())
+    
+    for (child of enemyList.querySelectorAll(".enemyentry")){
         if((child.querySelector(".poketitle")).innerHTML.toUpperCase() === enemyTeam[pos].name.toUpperCase())
         {
-            // 
+            cfightpoke = child
             enemyTeam.splice(enemyTeam[pos], 1)
             child.querySelector("img").classList.add("cpu")
             main.appendChild(child.querySelector("img"))
             enemyList.removeChild(child)
-            return "Hello"
+            return false;
         }
-    })
+    }
 } 
 
 
-function battlefunction()
-{
 
+async function battlefunction()
+{
+    main.classList.add("fight")
+    await new Promise(resolve => {
+        setTimeout(() => {
+            main.classList.remove("fight")
+            main.removeChild(main.querySelector(".player"))
+            main.removeChild(main.querySelector(".cpu"))
+            console.log(pfightpoke)
+            console.log(cfightpoke)
+            
+            console.log(cfightpoke.querySelector("img"))
+
+            let pos;
+            for (child of pokemonTeam){
+                if (child.name.toUpperCase() === pfightpoke.querySelector("p").innerHTML.toUpperCase()){
+                    pos = pokemonTeam.indexOf(child)
+                }
+            }
+            
+            let index
+            for (child of enemyTeam){
+                if (child.name.toUpperCase() === cfightpoke.querySelector("p").innerHTML.toUpperCase()){
+                    index = enemyTeam.indexOf(child)
+                }
+            }
+
+
+            let sprite = document.createElement("img")
+            sprite.classList.add("sprite")
+            let name = document.createElement("p")
+            name.classList.add("poketitle")
+            
+            
+            
+            sprite.src = pokemonTeam[pos].sprites.front_default
+            name.innerHTML = pokemonTeam[pos].name.charAt(0).toUpperCase() + pokemonTeam[pos].name.slice(1)
+            addToTeam(name, sprite )
+            pokemonTeam.push(pokemonTeam.pop(pos))
+            
+            clicked = false
+            test() 
+        }, 3000);
+      });
+    
 }
 
 
 initialiseThreeCards()
+// battlefunction()

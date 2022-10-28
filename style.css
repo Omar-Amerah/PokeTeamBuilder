@@ -41,7 +41,7 @@ section{
     margin-right: 30px;
     margin-top: 40px;
     margin-bottom: 50px;
-    box-shadow: 5px 10px #464646;
+    box-shadow: 5px 10px rgb(63, 5, 63);
     border: 2px solid #464646;
     border-radius: 7px;
     opacity: 0.8;   
@@ -91,8 +91,8 @@ p{
 
 .colourStrip{
     grid-area: 2/1 /9/1;
-    background-color: rgba(104, 170, 249, 0.7);
-    max-height: 100%;
+    background-color: rgba(91, 166, 232, 0.8);
+    max-height: auto;
 } 
 
 .enemycolourStrip{
@@ -109,16 +109,16 @@ p{
     height: 250px;
     transform: scaleX(-1);
     grid-area: 5/3/7/5;
-    animation: rotation 3s linear 3s infinite alternate;
+    animation: rotation 2s linear 2s infinite alternate;
 }
 
 @keyframes rotation{
     50% {
-        transform: rotate(360deg);
+        transform: rotate(0deg);
     }
 
     100% {
-        transform: rotate(0deg);
+        transform: rotate(360deg);
     }
 }
 
@@ -127,7 +127,7 @@ p{
     height: 250px;
     grid-area:  5/7/7/9;
     transform: scaleX(-1);
-    animation: rotationZ 3s linear 3s infinite alternate;
+    animation: rotationZ 2s linear 2s infinite alternate;
 }
 
 @keyframes rotationZ{
