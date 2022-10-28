@@ -132,7 +132,7 @@ p{
     width: 250px;
     height: 250px;
     grid-area:  5/7/7/9;
-    transform: scaleX(-1);
+    /* transform: scaleX(-1); */
     animation: rotationZ 2s linear 2s infinite alternate;
 }
 
@@ -156,3 +156,30 @@ p{
     color: transparent;
     border: 0px;
 }
+
+.winScreen{
+    background-image: url(" https://ssb.wiki.gallery/images/thumb/6/67/CharizardVictoryPose2SSBU.gif/120px-CharizardVictoryPose2SSBU.gif");
+    background-size: 100% 100%;
+    background-size: contain;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover;
+}
+
+.loseScreen{
+    background-image: url("https://i.kym-cdn.com/entries/icons/facebook/000/029/198/Dark_Souls_You_Died_Screen_-_Completely_Black_Screen_0-2_screenshot.jpg");
+    background-size: 100% 100%;
+    background-size: contain;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-size: cover;
+}
+
+.endbutton{
+    background-color: plum;
+    opacity: 0.3;
+    width: 100px;
+    height: 50px;
+    border: 0px;
+}
+

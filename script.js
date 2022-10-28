@@ -14,7 +14,6 @@ battleTheme.addEventListener("click", () =>{
     fight.play();
 })
 
-
 const mainTheme = document.querySelector("#mainMusic");
 mainTheme.addEventListener("click", () =>{
     const main = new Audio();
@@ -32,7 +31,6 @@ async function getPokemon() {
     return data
   } 
   
-
 //Function to create the 3 pokemon cards at the start
 function createPokemonCard(pokemonData){
     const card = document.createElement("div")
@@ -121,8 +119,6 @@ function createEnemy()
 {
         getPokemon().then(data => {
             enemyTeam.push(data)
-            
-            
             const entry = document.createElement("section")
             const sprite = document.createElement("img")
             const etitle = document.createElement("p")
@@ -139,101 +135,6 @@ function createEnemy()
         });
 }
 
-// function battle(player){
-//     // let element = document.querySelector("#battleText")
-//     let loop = 6;
-//     let teamList = document.querySelector(`#enemy`)
-//     let pos = Math.floor(Math.random() * enemylist.length)
-//     enemy = enemylist[pos]
-//     enemylist.pop(pos)
-//     movePokemon(teamList.childNodes[pos + 1], "enemy", "cpu")
-//     if(player.id < enemy.id){
-//         // element.innerHTML= (`${player.name} is knocked out`)
-//         console.log("lose")
-//         removePokemon(player, "player")
-//     }
-//     else{
-//         // element.innerHTML = (`${enemy.name} is knocked out`)
-//         console.log("win")
-//         removePokemon(enemy, "cpu")
-//         battle(player)    
-//     }
-// }
-
-/*
-function beginBattle(){
-    // add event listeners to the player pokemon
-    let teamList = document.querySelector("#team")
-    let player = document.createElement("section")
-    let cpu = document.createElement("section")
-    cpu.id = "cpu"
-    player.id = "player"
-    // let text = document.createElement("p")
-    // text.id = "battleText"
-    // text.innerHTML = "Battle!"
-    document.querySelector("#battle").append(player, cpu)
-    teamList.childNodes.forEach((child)=>{
-        if (child.innerHTML !== "Your Team:"){
-            child.addEventListener("click", ()=>{
-                movePokemon(child, "team", "player")
-                let pokemonTeamName = []
-                pokemonTeam.forEach((element)=>{
-                    pokemonTeamName.push(element.name.charAt(0).toUpperCase() + element.name.slice(1))
-                })
-                let index = pokemonTeamName.indexOf(child.querySelector("p").innerHTML)
-                child.removeChild(child.querySelector("p"))
-                battle(pokemonTeam[index], winningPokemon)
-                pokemonTeam.pop(index)
-            })
-        }})
-}
-function movePokemon(child,id, name){
-    
-    let battleSection = document.querySelector(`#${name}`)
-    teamList.removeChild(child)
-    battleSection.append(child)
-    console.log(child, "child")
-    child.classList.add(name)
-}
-
-function battle(playerPokemon){
-    if (winningPokemon === null){
-        console.log("choosing an enemy")
-        let pos = Math.floor(Math.random() * enemylist.length)
-        console.log("nodes:" ,document.querySelector("#enemy").childNodes)
-        movePokemon(document.querySelector("#enemy").childNodes[pos + 3], "enemy", "cpu")
-        // winningPokemon = enemylist[pos]
-        console.log(enemylist)
-        winningPokemon = enemylist.pop(pos)
-        console.log(enemylist)
-        // winningPokemon = enemyPokemon
-    }
-    console.log(playerPokemon.id)
-    if(playerPokemon.id < winningPokemon.id){
-        console.log("Lost:" + playerPokemon.id, winningPokemon.id)
-            removePokemon(player, "player")
-            if (pokemonTeam.length === 0){
-                alert("you have lost")
-            }
-        }else{
-        console.log("Win:" + playerPokemon.id, winningPokemon.id)
-        removePokemon(enemy, "cpu")
-        if (enemylist.length !==0 ){
-            winningPokemon = null
-            battle(player)  
-                
-        }
-        else{
-            alert("You've won")
-        }
-    }
-}
-function removePokemon(team){
-    let battleSection = document.querySelector(`#${team}`)
-    battleSection.replaceChildren()
-}
-*/
-
 const battlearea = document.querySelector("#battle")
 let teamList = document.querySelector("#team")
 let enemyList = document.querySelector("#enemy")
@@ -246,7 +147,6 @@ function test()
                 let value = child.querySelector("p").innerHTML
                 let index = pokemonTeamName.indexOf(value)
                 pfightpoke = child
-                console.log("arrays:",pokemonTeam, pokemonTeamName, index)
                 removeplayerPokemon(pokemonTeam[index].name)
                 battlefunction()
                 
@@ -289,8 +189,7 @@ function removeenemyPokemon()
     }
 } 
 
-async function battlefunction()
-{
+async function battlefunction(){
     main.classList.add("fight")
     await new Promise(resolve => {
         setTimeout(() => {
@@ -301,9 +200,7 @@ async function battlefunction()
             let pos;
             for (child of pokemonTeam){
                 if (child.name.toUpperCase() === pfightpoke.querySelector("p").innerHTML.toUpperCase()){
-                    console.log("pfight",pfightpoke.querySelector("p").innerHTML, child.name)
                     pos = pokemonTeam.indexOf(child)
-                    console.log("pos of child", pos)
                 }
             }
             
@@ -319,38 +216,54 @@ async function battlefunction()
             let name = document.createElement("p")
             name.classList.add("poketitle")
 
-
-            
-
             if(pokemonTeam[pos].id < enemyTeam[index].id){
                 sprite.src = enemyTeam[index].sprites.front_default
                 name.innerHTML = enemyTeam[index].name.charAt(0).toUpperCase() + enemyTeam[index].name.slice(1)
                 addToEnemy(name, sprite)
-                
                 enemyTeam.push(enemyTeam.splice(index,1)[0])
-                // enemyTeam = enemyTeam.push(enemyTeam.pop(index))
-                
-                console.log("before this loss:",pokemonTeam, pokemonTeamName)
                 pokemonTeam.splice(pos,1)
                 pokemonTeamName.splice(pos,1)
-                console.log("after this loss:", pokemonTeam, pokemonTeamName)
             }else{
                 sprite.src = pokemonTeam[pos].sprites.front_default
                 name.innerHTML = pokemonTeam[pos].name.charAt(0).toUpperCase() + pokemonTeam[pos].name.slice(1)
                 recreateEventListeners(addToTeam(name, sprite ))
-    
                 pokemonTeam.push(pokemonTeam.splice(pos,1)[0])
                 pokemonTeamName.push(pokemonTeamName.splice(pos,1)[0])
                 enemyTeam.splice(index,1)
-                
-                // pokemonTeam[pokemonTeam.length-1])
             }
             
+            if(pokemonTeam.length === 0)
+            {
+                main.replaceChildren()
+                main.classList.remove("battle")
+                main.classList.add("loseScreen")
+                const tryagainbtn = document.createElement("button")
+                tryagainbtn.classList.add("endbutton")
+                tryagainbtn.innerHTML = "Refresh"
+                main.append(tryagainbtn)
+                tryagainbtn.addEventListener('click', () =>{
+                    location.reload();
+                })
+                
+            }
+            else if(enemyTeam.length === 0)
+            {
+                main.replaceChildren()
+                main.classList.remove("battle")
+                main.classList.add("winScreen")
+                
+                const tryagainbtn = document.createElement("button")
+                tryagainbtn.classList.add("endbutton")
+                tryagainbtn.innerHTML = "Refresh"
+                main.append(tryagainbtn)
+                tryagainbtn.addEventListener('click', () =>{
+                    location.reload();
+                })
+            }
+
             clicked = false
-            
-        }, 0);
-      });
-    
+        },000);
+      }); 
 }
 
 function recreateEventListeners(child){
@@ -362,6 +275,5 @@ function recreateEventListeners(child){
         battlefunction()
     })
 }
-
 
 initialiseThreeCards()
