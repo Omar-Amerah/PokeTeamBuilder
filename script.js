@@ -261,7 +261,7 @@ async function battlefunction(){
             }
 
             clicked = false
-        },000);
+        },6000);
       }); 
 }
 
